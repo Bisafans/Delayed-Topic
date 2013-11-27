@@ -22,21 +22,21 @@
 	</requiredpackages>
 
 	<instructions type="install">
-		<!--<instruction type="language">language/*xml.de</instruction>
-		<instruction type="file">file.tar</instruction>
-		<instruction type="template">template.tar</instruction>-->
+		<instruction type="language">language/*.xml</instruction>
+		<instruction type="file" application="wbb">file.tar</instruction>
+		<instruction type="template" application="wbb">template.tar</instruction>
 		<instruction type="sql">install.sql</instruction>
-		<!--<instruction type="cronjob">cronjob.xml</instruction>
-		<instruction type="eventListener">eventListener.xml</instruction>-->
+		<!--<instruction type="cronjob">cronjob.xml</instruction>-->
+		<instruction type="eventListener">eventListener.xml</instruction>
 		<instruction type="templateListener">templateListener.xml</instruction>
 	</instructions>
 
 	<instructions type="update" fromversion="*">
-		<!--<instruction type="language">language/*xml.de</instruction>
-		<instruction type="file">file.tar</instruction>
-		<instruction type="template">template.tar</instruction>
-		<instruction type="cronjob">cronjob.xml</instruction>
-		<instruction type="eventListener">eventListener.xml</instruction>-->
+		<instruction type="language">language/*.xml</instruction>
+		<instruction type="file" application="wbb">file.tar</instruction>
+		<instruction type="template" application="wbb">template.tar</instruction>
+		<!--<instruction type="cronjob">cronjob.xml</instruction>-->
+		<instruction type="eventListener">eventListener.xml</instruction>
 		<instruction type="templateListener">templateListener.xml</instruction>
 	</instructions>
 </package>

@@ -5,13 +5,13 @@
 			<environment>user</environment>
 			<templatename>threadAdd</templatename>
 			<eventname>informationFields</eventname>
-			<templatecode><![CDATA][{include file='__delayedThreads'}]]></templatecode>
+			<templatecode><![CDATA[{include file='__delayedThreads' application='wbb'}]]></templatecode>
 		</templatelistener>
 		<templatelistener name="postAdd">
 			<environment>user</environment>
 			<templatename>postAdd</templatename>
 			<eventname>informationFields</eventname>
-			<templatecode><![CDATA][{include file='__delayedPosts'}]]></templatecode>
+			<templatecode><![CDATA[{include file='__delayedPosts' application='wbb'}]]></templatecode>
 		</templatelistener>
 	</import>
 </data>
