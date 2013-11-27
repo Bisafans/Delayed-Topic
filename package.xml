@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package name="de.bisaboard.wbb.delayedPosts" xmlns="http://www.woltlab.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.woltlab.com http://www.woltlab.com/XSD/maelstrom/package.xsd">
+	<packageinformation>
+		<packagename><![CDATA[Delayed Posts]]></packagename>
+		<packagename language="de"><![CDATA[Verzögertes Posten]]></packagename>
+		<packagedescription><![CDATA[Allows users to create threads which will be activated at the chosen time.]]></packagedescription>
+		<packagedescription language="de"><![CDATA[Erlaubt Benutzern Themen zu erstellen, die zu einem gewählten Zeitpunkt aktiviert werden.]]></packagedescription>
+		<isapplication>0</isapplication>
+		<version>2.0.0 RC 1</version>
+		<date>2013-12-28</date>
+		<license><![CDATA[Creative Commons BY-NC-SA <https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode>]]></license>
+	</packageinformation>
+
+	<authorinformation>
+		<author><![CDATA[Sascha Ehrler]]></author>
+		<authorurl><![CDATA[http://www.bisaboard.de]]></authorurl>
+	</authorinformation>
+
+	<requiredpackages>
+		<requiredpackage minversion="2.0.0 RC 1">com.woltlab.wcf</requiredpackage>
+		<requiredpackage minversion="4.0.0 RC 1">com.woltlab.wbb</requiredpackage>
+	</requiredpackages>
+
+	<instructions type="install">
+		<!--<instruction type="language">language/*xml.de</instruction>
+		<instruction type="file">file.tar</instruction>
+		<instruction type="template">template.tar</instruction>-->
+		<instruction type="sql">install.sql</instruction>
+		<!--<instruction type="cronjob">cronjob.xml</instruction>
+		<instruction type="eventListener">eventListener.xml</instruction>
+		<instruction type="templateListener">templateListener.xml</instruction>-->
+	</instructions>
+
+	<instructions type="update" fromversion="*">
+		<!--<instruction type="language">language/*xml.de</instruction>
+		<instruction type="file">file.tar</instruction>
+		<instruction type="template">template.tar</instruction>
+		<instruction type="cronjob">cronjob.xml</instruction>
+		<instruction type="eventListener">eventListener.xml</instruction>
+		<instruction type="templateListener">templateListener.xml</instruction>-->
+	</instructions>
+</package>
