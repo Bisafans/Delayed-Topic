@@ -27,8 +27,8 @@
 		<instruction type="template">template.tar</instruction>-->
 		<instruction type="sql">install.sql</instruction>
 		<!--<instruction type="cronjob">cronjob.xml</instruction>
-		<instruction type="eventListener">eventListener.xml</instruction>
-		<instruction type="templateListener">templateListener.xml</instruction>-->
+		<instruction type="eventListener">eventListener.xml</instruction>-->
+		<instruction type="templateListener">templateListener.xml</instruction>
 	</instructions>
 
 	<instructions type="update" fromversion="*">
@@ -36,7 +36,7 @@
 		<instruction type="file">file.tar</instruction>
 		<instruction type="template">template.tar</instruction>
 		<instruction type="cronjob">cronjob.xml</instruction>
-		<instruction type="eventListener">eventListener.xml</instruction>
-		<instruction type="templateListener">templateListener.xml</instruction>-->
+		<instruction type="eventListener">eventListener.xml</instruction>-->
+		<instruction type="templateListener">templateListener.xml</instruction>
 	</instructions>
 </package>
