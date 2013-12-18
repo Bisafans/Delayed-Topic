@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<data xmlns="http://www.woltlab.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.woltlab.com http://www.woltlab.com/XSD/eventlistener.xsd">
+	<import>
+		<!-- \wbb\form\ThreadAddForm -->
+		<eventlistener>
+			<eventclassname><![CDATA[wbb\form\ThreadAddForm]]></eventclassname>
+			<eventname><![CDATA[assignVariables]]></eventname>
+			<environment><![CDATA[user]]></environment>
+			<inherit>0</inherit>
+			<listenerclassname><![CDATA[wbb\system\event\listener\ThreadAddFormDelayedPostsListener]]></listenerclassname>
+		</eventlistener>
+		
+		<eventlistener>
+			<eventclassname><![CDATA[wbb\form\ThreadAddForm]]></eventclassname>
+			<eventname><![CDATA[readFormParameters]]></eventname>
+			<environment><![CDATA[user]]></environment>
+			<inherit>0</inherit>
+			<listenerclassname><![CDATA[wbb\system\event\listener\ThreadAddFormDelayedPostsListener]]></listenerclassname>
+		</eventlistener>
+		
+		<eventlistener>
+			<eventclassname><![CDATA[wbb\form\ThreadAddForm]]></eventclassname>
+			<eventname><![CDATA[validate]]></eventname>
+			<environment><![CDATA[user]]></environment>
+			<inherit>0</inherit>
+			<listenerclassname><![CDATA[wbb\system\event\listener\ThreadAddFormDelayedPostsListener]]></listenerclassname>
+		</eventlistener>
+		
+		<eventlistener>
+			<eventclassname><![CDATA[wbb\form\ThreadAddForm]]></eventclassname>
+			<eventname><![CDATA[save]]></eventname>
+			<environment><![CDATA[user]]></environment>
+			<inherit>0</inherit>
+			<listenerclassname><![CDATA[wbb\system\event\listener\ThreadAddFormDelayedPostsListener]]></listenerclassname>
+		</eventlistener>
+		
+		<!-- \wbb\form\PostAddForm -->
+		<eventlistener>
+			<eventclassname><![CDATA[wbb\form\PostAddForm]]></eventclassname>
+			<eventname><![CDATA[assignVariables]]></eventname>
+			<environment><![CDATA[user]]></environment>
+			<inherit>0</inherit>
+			<listenerclassname><![CDATA[wbb\system\event\listener\ThreadAddFormDelayedPostsListener]]></listenerclassname>
+		</eventlistener>
+		
+		<eventlistener>
+			<eventclassname><![CDATA[wbb\form\PostAddForm]]></eventclassname>
+			<eventname><![CDATA[readFormParameters]]></eventname>
+			<environment><![CDATA[user]]></environment>
+			<inherit>0</inherit>
+			<listenerclassname><![CDATA[wbb\system\event\listener\ThreadAddFormDelayedPostsListener]]></listenerclassname>
+		</eventlistener>
+		
+		<eventlistener>
+			<eventclassname><![CDATA[wbb\form\PostAddForm]]></eventclassname>
+			<eventname><![CDATA[validate]]></eventname>
+			<environment><![CDATA[user]]></environment>
+			<inherit>0</inherit>
+			<listenerclassname><![CDATA[wbb\system\event\listener\ThreadAddFormDelayedPostsListener]]></listenerclassname>
+		</eventlistener>
+		
+		<eventlistener>
+			<eventclassname><![CDATA[wbb\form\PostAddForm]]></eventclassname>
+			<eventname><![CDATA[save]]></eventname>
+			<environment><![CDATA[user]]></environment>
+			<inherit>0</inherit>
+			<listenerclassname><![CDATA[wbb\system\event\listener\ThreadAddFormDelayedPostsListener]]></listenerclassname>
+		</eventlistener>
+
+		<!-- \wbb\form\PostEditForm -->
+		<eventlistener>
+			<eventclassname><![CDATA[wbb\form\PostEditForm]]></eventclassname>
+			<eventname><![CDATA[assignVariables]]></eventname>
+			<environment><![CDATA[user]]></environment>
+			<inherit>0</inherit>
+			<listenerclassname><![CDATA[wbb\system\event\listener\PostEditFormDelayedPostsListener]]></listenerclassname>
+		</eventlistener>
+		
+		<eventlistener>
+			<eventclassname><![CDATA[wbb\form\PostEditForm]]></eventclassname>
+			<eventname><![CDATA[readFormParameters]]></eventname>
+			<environment><![CDATA[user]]></environment>
+			<inherit>0</inherit>
+			<listenerclassname><![CDATA[wbb\system\event\listener\PostEditFormDelayedPostsListener]]></listenerclassname>
+		</eventlistener>
+		
+		<eventlistener>
+			<eventclassname><![CDATA[wbb\form\PostEditForm]]></eventclassname>
+			<eventname><![CDATA[validate]]></eventname>
+			<environment><![CDATA[user]]></environment>
+			<inherit>0</inherit>
+			<listenerclassname><![CDATA[wbb\system\event\listener\PostEditFormDelayedPostsListener]]></listenerclassname>
+		</eventlistener>
+		
+		<eventlistener>
+			<eventclassname><![CDATA[wbb\form\PostEditForm]]></eventclassname>
+			<eventname><![CDATA[save]]></eventname>
+			<environment><![CDATA[user]]></environment>
+			<inherit>0</inherit>
+			<listenerclassname><![CDATA[wbb\system\event\listener\PostEditFormDelayedPostsListener]]></listenerclassname>
+		</eventlistener>
+	</import>
+</data>

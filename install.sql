@@ -1,3 +1,1 @@
 ALTER TABLE wbb1_post ADD enableTime INT(10) NOT NULL DEFAULT 0;
-
-ALTER TABLE wbb1_thread ADD enableTime INT(10) NOT NULL DEFAULT 0;

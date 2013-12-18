@@ -3,6 +3,6 @@
 	<category name="wbb.delayed">
 		<item name="wbb.delayed.enable"><![CDATA[Beitrag später erstellen]]></item>
 		<item name="wbb.delayed.timeout"><![CDATA[Erscheinungsdatum]]></item>
-		<item name="wbb.delayed.invalid"><![CDATA[Dieser Zeitpunkt ist ungültig.]]></item>
+		<item name="wbb.delayed.notValid"><![CDATA[Dieser Zeitpunkt ist ungültig.]]></item>
 	</category>
 </language>

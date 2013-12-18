@@ -3,6 +3,6 @@
 	<category name="wbb.delayed">
 		<item name="wbb.delayed.enable"><![CDATA[Create Post later]]></item>
 		<item name="wbb.delayed.timeout"><![CDATA[Activationtime]]></item>
-		<item name="wbb.delayed.invalid"><![CDATA[The chosen time is invalid.]]></item>
+		<item name="wbb.delayed.notValid"><![CDATA[The chosen time is invalid.]]></item>
 	</category>
 </language>

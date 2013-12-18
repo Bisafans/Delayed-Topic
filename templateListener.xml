@@ -13,5 +13,11 @@
 			<eventname>informationFields</eventname>
 			<templatecode><![CDATA[{include file='__delayedPosts' application='wbb'}]]></templatecode>
 		</templatelistener>
+		<templatelistener name="postEdit">
+			<environment>user</environment>
+			<templatename>postEdit</templatename>
+			<eventname>informationFields</eventname>
+			<templatecode><![CDATA[{include file='__delayedPosts' application='wbb'}]]></templatecode>
+		</templatelistener>
 	</import>
 </data>
