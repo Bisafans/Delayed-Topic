@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="http://www.woltlab.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.woltlab.com http://www.woltlab.com/XSD/cronjobs.xsd">
+	<import>
+		<cronjob>
+			<classname><![CDATA[wbb\system\cronjob\DelayedPostsEnableCronjob]]></classname>
+			<description><![CDATA[Enables delayed posts and threads]]></description>
+			<description language="de"><![CDATA[Schaltet verzögerte Beiträge und Themen frei]]></description>
+			<startminute>*/5</startminute>
+			<starthour>*</starthour>
+			<startdom>*</startdom>
+			<startmonth>*</startmonth>
+			<startdow>*</startdow>
+			<canbeedited>1</canbeedited>
+			<canbedisabled>0</canbedisabled>
+		</cronjob>
+	</import>
+</data>

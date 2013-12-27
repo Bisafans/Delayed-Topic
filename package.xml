@@ -26,7 +26,7 @@
 		<instruction type="file" application="wbb">file.tar</instruction>
 		<instruction type="template" application="wbb">template.tar</instruction>
 		<instruction type="sql">install.sql</instruction>
-		<!--<instruction type="cronjob">cronjob.xml</instruction>-->
+		<instruction type="cronjob">cronjob.xml</instruction>
 		<instruction type="eventListener">eventListener.xml</instruction>
 		<instruction type="templateListener">templateListener.xml</instruction>
 	</instructions>
@@ -35,7 +35,7 @@
 		<instruction type="language">language/*.xml</instruction>
 		<instruction type="file" application="wbb">file.tar</instruction>
 		<instruction type="template" application="wbb">template.tar</instruction>
-		<!--<instruction type="cronjob">cronjob.xml</instruction>-->
+		<instruction type="cronjob">cronjob.xml</instruction>
 		<instruction type="eventListener">eventListener.xml</instruction>
 		<instruction type="templateListener">templateListener.xml</instruction>
 	</instructions>

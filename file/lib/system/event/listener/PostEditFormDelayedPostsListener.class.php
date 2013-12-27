@@ -37,14 +37,13 @@ class PostEditFormDelayedPostsListener implements IEventListener {
 	 * @see	EventListener::execute()
 	 */
 	public function execute($eventObj, $className, $eventName) {
-		// break if post / thread was enabled already
-		if ($eventObj->isFirstPost && $eventObj->thread->everEnabled) {
-			return;
-		} else if (!$eventObj->isFirstPost && $eventObj->everEnabled) {
-			return;
+		if (!$eventObj->board->getModeratorPermission('canEnablePost')) return;
+		
+		if ($eventObj->post->enableTime != 0) {
+			$this->timestamp = $eventObj->post->enableTime;
+			$this->delayedEnable = true;
 		}
-		$timestamp = $eventObj->thread->enableTime;
-
+		
 		switch ($eventName) {
 			case 'assignVariables':
 				WCF::getTPL()->assign(array(
@@ -53,7 +52,7 @@ class PostEditFormDelayedPostsListener implements IEventListener {
 				));
 			break;
 			case 'readFormParameters':
-				if (isset($_POST['delayedTime'])) $this->timestamp = strtotime($_POST['delayedTime']);
+				if (isset($_POST['delayedTime'])) $this->timestamp = strtotime($_POST['delayedTime'].' GMT');
 				if (isset($_POST['delayedEnable'])) $this->delayedEnable = true;
 			break;
 			case 'validate':
@@ -62,10 +61,13 @@ class PostEditFormDelayedPostsListener implements IEventListener {
 				}
 			break;
 			case 'save':
-				// enable post / thread if no longer delayed
+				// delete the timestamp if no longer delayed
 				if (!$this->delayedEnable) {
-					//TODO: Hat beim Test nicht funktioniert, BUG?
-					$eventObj->disableThread = false;
+					if ($eventObj->isFirstPost) {
+						$eventObj->additionalPostFields['enableTime'] = 0;
+					} else {
+						$eventObj->additionalFields['enableTime'] = 0;
+					}
 					return;
 				}
 
@@ -80,4 +82,3 @@ class PostEditFormDelayedPostsListener implements IEventListener {
 		}
 	}
 }
-?>
