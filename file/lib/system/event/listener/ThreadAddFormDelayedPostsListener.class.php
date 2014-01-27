@@ -33,7 +33,7 @@ class ThreadAddFormDelayedPostsListener implements IEventListener {
 	public function execute($eventObj, $className, $eventName) {
 		if ($className == 'wbb\form\ThreadAddForm' && !$eventObj->board->getModeratorPermission('canEnableThread')) return;
 		if ($className == 'wbb\form\PostAddForm' && !$eventObj->board->getModeratorPermission('canEnablePost')) return;
-
+		
 		switch ($eventName) {
 			case 'assignVariables':
 				WCF::getTPL()->assign(array(
@@ -41,22 +41,28 @@ class ThreadAddFormDelayedPostsListener implements IEventListener {
 					'delayedTime' => $this->timestamp
 				));
 			break;
+			
 			case 'readFormParameters':
 				if (isset($_POST['delayedTime'])) $this->timestamp = strtotime($_POST['delayedTime'].' GMT');
 				if (isset($_POST['delayedEnable'])) $this->delayedEnable = true;
 			break;
+			
 			case 'validate':
 				if ($this->delayedEnable) {
-					if (!$this->timestamp || $this->timestamp < TIME_NOW) throw new UserInputException('delayedTime', 'notValid');
+					if (!$this->timestamp || $this->timestamp < TIME_NOW) {
+						throw new UserInputException('delayedTime', 'notValid');
+					}
 				}
 			break;
+			
 			case 'save':
 				if (!$this->delayedEnable) return;
 				
 				if ($className == 'wbb\form\ThreadAddForm') {
 					$eventObj->additionalPostFields['enableTime'] = $this->timestamp;
 					$eventObj->disableThread = true;
-				} else if ($className == 'wbb\form\PostAddForm') {
+				}
+				else if ($className == 'wbb\form\PostAddForm') {
 					$eventObj->additionalFields['enableTime'] = $this->timestamp;
 					$eventObj->disablePost = true;
 				}

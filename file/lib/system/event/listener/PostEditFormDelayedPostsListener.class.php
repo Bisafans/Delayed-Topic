@@ -51,30 +51,37 @@ class PostEditFormDelayedPostsListener implements IEventListener {
 					'delayedTime' => $this->timestamp
 				));
 			break;
+			
 			case 'readFormParameters':
 				if (isset($_POST['delayedTime'])) $this->timestamp = strtotime($_POST['delayedTime'].' GMT');
 				if (isset($_POST['delayedEnable'])) $this->delayedEnable = true;
 			break;
+			
 			case 'validate':
 				if ($this->delayedEnable) {
-					if (!$this->timestamp || $this->timestamp < TIME_NOW) throw new UserInputException('delayedTime', 'notValid');
+					if (!$this->timestamp || $this->timestamp < TIME_NOW) {
+						throw new UserInputException('delayedTime', 'notValid');
+					}
 				}
 			break;
+			
 			case 'save':
 				// delete the timestamp if no longer delayed
 				if (!$this->delayedEnable) {
 					if ($eventObj->isFirstPost) {
 						$eventObj->additionalPostFields['enableTime'] = 0;
-					} else {
+					}
+					else {
 						$eventObj->additionalFields['enableTime'] = 0;
 					}
 					return;
 				}
-
+				
 				if ($eventObj->isFirstPost) {
 					$eventObj->additionalPostFields['enableTime'] = $this->timestamp;
 					$eventObj->disableThread = true;
-				} else {
+				}
+				else {
 					$eventObj->additionalFields['enableTime'] = $this->timestamp;
 					$eventObj->disablePost = true;
 				}

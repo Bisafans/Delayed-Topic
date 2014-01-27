@@ -21,29 +21,22 @@ class DelayedPostsEnableCronjob extends AbstractCronjob {
 	 */
 	public function execute(Cronjob $cronjob) {
 		parent::execute($cronjob);
-
+		
 		WCF::getDB()->beginTransaction();
-
+		
 		$threadIDs = array();
-		$sql = "SELECT
-				t.threadID AS threadIDs
-			FROM
-				wbb".WCF_N."_thread t
-			INNER JOIN
-				wbb".WCF_N."_post p
-			ON
-				t.firstPostID = p.postID
-			WHERE
-				p.isDisabled = 1
-			AND	p.enableTime < ".TIME_NOW."
-			AND	p.enableTime <> 0
+		$sql = "SELECT		t.threadID
+			FROM		wbb".WCF_N."_thread t
+			INNER JOIN	wbb".WCF_N."_post p
+			ON		t.firstPostID = p.postID
+			WHERE		p.isDisabled = ?
+				AND	p.enableTime < ?
+				AND	p.enableTime <> ?
 			FOR UPDATE";
 		$statement = WCF::getDB()->prepareStatement($sql);
-		$statement->execute();
-		while ($row = $statement->fetchArray()) {
-			$threadIDs[] = $row['threadIDs'];
-		}
-
+		$statement->execute(array(1, TIME_NOW, 0));
+		while ($threadID = $statement->fetchColumn()) $threadIDs[] = $threadID;
+		
 		if (!empty($threadIDs)) {
 			$conditions = new PreparedStatementConditionBuilder();
 			$conditions->add("threadID IN (?)", array($threadIDs));
@@ -56,7 +49,7 @@ class DelayedPostsEnableCronjob extends AbstractCronjob {
 			$statement = WCF::getDB()->prepareStatement($sql);
 			$statement->execute($conditions->getParameters());
 		}
-
+		
 		$sql = "UPDATE
 				wbb".WCF_N."_post
 			SET
@@ -67,24 +60,20 @@ class DelayedPostsEnableCronjob extends AbstractCronjob {
 			AND	enableTime <> 0";
 		$statement = WCF::getDB()->prepareStatement($sql);
 		$statement->execute();
-
 		WCF::getDB()->commitTransaction();
-
-		$postIDs = array();
-		//select all posts which have to be enabled, will also enable threads
-		$sql = "SELECT
-				postID
-			FROM
-				wbb".WCF_N."_post
-			WHERE
-				isDisabled = 1
-			AND	enableTime < ".TIME_NOW."
-			AND	enableTime <> 0";
+		
+		// select all posts which have to be enabled, will also enable threads
+		$sql = "SELECT	postID
+			FROM	wbb".WCF_N."_post
+			WHERE		isDisabled = ?
+				AND	enableTime < ?
+				AND	enableTime <> ?";
 		$statement = WCF::getDB()->prepareStatement($sql);
-		$statement->execute();
-		while ($row = $statement->fetchArray()) {
-			$postIDs[] = $row['postID'];
-		}
+		$statement->execute(array(1, TIME_NOW, 0));
+		
+		$postIDs = array();
+		while ($postID = $statement->fetchColumn()) $postIDs[] = $postID;
+		
 		if (!empty($postIDs)) {
 			$action = new PostAction($postIDs, 'enable');
 			$action->executeAction();
