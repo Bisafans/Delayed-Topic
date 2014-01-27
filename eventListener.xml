@@ -78,6 +78,14 @@
 		
 		<eventlistener>
 			<eventclassname><![CDATA[wbb\form\PostEditForm]]></eventclassname>
+			<eventname><![CDATA[readData]]></eventname>
+			<environment><![CDATA[user]]></environment>
+			<inherit>0</inherit>
+			<listenerclassname><![CDATA[wbb\system\event\listener\PostEditFormDelayedPostsListener]]></listenerclassname>
+		</eventlistener>
+		
+		<eventlistener>
+			<eventclassname><![CDATA[wbb\form\PostEditForm]]></eventclassname>
 			<eventname><![CDATA[readFormParameters]]></eventname>
 			<environment><![CDATA[user]]></environment>
 			<inherit>0</inherit>

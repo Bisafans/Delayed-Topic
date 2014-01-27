@@ -26,12 +26,6 @@ class PostEditFormDelayedPostsListener implements IEventListener {
 	 * @var datetime
 	 */
 	public $timestamp = TIME_NOW;
-	/**
-	 * is this the starting post of an thread
-	 * 
-	 * @var boolean
-	 */
-	public $startingPost = false;
 	
 	/**
 	 * @see	EventListener::execute()
@@ -39,10 +33,6 @@ class PostEditFormDelayedPostsListener implements IEventListener {
 	public function execute($eventObj, $className, $eventName) {
 		if (!$eventObj->board->getModeratorPermission('canEnablePost')) return;
 		
-		if ($eventObj->post->enableTime != 0) {
-			$this->timestamp = $eventObj->post->enableTime;
-			$this->delayedEnable = true;
-		}
 		
 		switch ($eventName) {
 			case 'assignVariables':
@@ -50,6 +40,13 @@ class PostEditFormDelayedPostsListener implements IEventListener {
 					'delayedEnable' => $this->delayedEnable,
 					'delayedTime' => $this->timestamp
 				));
+			break;
+			
+			case 'readData':
+				if (empty($_POST) && $eventObj->post->enableTime != 0) {
+					$this->timestamp = $eventObj->post->enableTime;
+					$this->delayedEnable = true;
+				}
 			break;
 			
 			case 'readFormParameters':
@@ -68,23 +65,11 @@ class PostEditFormDelayedPostsListener implements IEventListener {
 			case 'save':
 				// delete the timestamp if no longer delayed
 				if (!$this->delayedEnable) {
-					if ($eventObj->isFirstPost) {
-						$eventObj->additionalPostFields['enableTime'] = 0;
-					}
-					else {
-						$eventObj->additionalFields['enableTime'] = 0;
-					}
+					$eventObj->additionalFields['enableTime'] = 0;
 					return;
 				}
 				
-				if ($eventObj->isFirstPost) {
-					$eventObj->additionalPostFields['enableTime'] = $this->timestamp;
-					$eventObj->disableThread = true;
-				}
-				else {
-					$eventObj->additionalFields['enableTime'] = $this->timestamp;
-					$eventObj->disablePost = true;
-				}
+				$eventObj->additionalFields['enableTime'] = $this->timestamp;
 			break;
 		}
 	}
