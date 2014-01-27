@@ -1,6 +1,7 @@
 <?php
 namespace wbb\system\cronjob;
 use \wbb\data\post\PostAction;
+use \wbb\data\thread\ThreadAction;
 use \wcf\data\cronjob\Cronjob;
 use \wcf\system\cronjob\AbstractCronjob;
 use \wcf\system\database\util\PreparedStatementConditionBuilder;
@@ -9,10 +10,10 @@ use \wcf\system\WCF;
 /**
  * Enables delayed posts
  *
- * @author		Sascha Ehrler
+ * @author	Tim Düsterhus, Sascha Ehrler
  * @copyright	2013 Sascha Ehrler
- * @license		Creative Commons BY-NC-ND <http://creativecommons.org/licenses/by-nc-nd/3.0/de/>
- * @package		de.bisaboard.wbb.delayedPosts
+ * @license	Creative Commons BY-NC-ND <http://creativecommons.org/licenses/by-nc-nd/3.0/de/>
+ * @package	de.bisaboard.wbb.delayedPosts
  * @subpackage	system.cronjob
  */
 class DelayedPostsEnableCronjob extends AbstractCronjob {
@@ -37,30 +38,10 @@ class DelayedPostsEnableCronjob extends AbstractCronjob {
 		$statement->execute(array(1, TIME_NOW, 0));
 		while ($threadID = $statement->fetchColumn()) $threadIDs[] = $threadID;
 		
-		if (!empty($threadIDs)) {
-			$conditions = new PreparedStatementConditionBuilder();
-			$conditions->add("threadID IN (?)", array($threadIDs));
-			
-			$sql = "UPDATE
-					wbb".WCF_N."_thread
-				SET
-					time = ".TIME_NOW."
-				".$conditions;
-			$statement = WCF::getDB()->prepareStatement($sql);
-			$statement->execute($conditions->getParameters());
-		}
-		
-		$sql = "UPDATE
-				wbb".WCF_N."_post
-			SET
-				time = ".TIME_NOW."
-			WHERE
-				isDisabled = 1
-			AND	enableTime < ".TIME_NOW."
-			AND	enableTime <> 0";
-		$statement = WCF::getDB()->prepareStatement($sql);
-		$statement->execute();
-		WCF::getDB()->commitTransaction();
+		$action = new ThreadAction($threadIDs, 'update', array('data' => array(
+			'time' => TIME_NOW
+		)));
+		$action->executeAction();
 		
 		// select all posts which have to be enabled, will also enable threads
 		$sql = "SELECT	postID
@@ -75,8 +56,25 @@ class DelayedPostsEnableCronjob extends AbstractCronjob {
 		while ($postID = $statement->fetchColumn()) $postIDs[] = $postID;
 		
 		if (!empty($postIDs)) {
+			// change date
+			$action = new PostAction($postIDs, 'update', array('data' => array(
+				'time' => TIME_NOW
+			)));
+			$action->executeAction();
+			
 			$action = new PostAction($postIDs, 'enable');
+			try {
+				$action->validateAction();
+			}
+			catch (\wcf\system\exception\PermissionDeniedException $e) {
+				// validateAction may throw an undesired PermissionDeniedException
+				// as the user executing the cronjob does not neccesarily have the
+				// permission to enable posts
+			}
+			
 			$action->executeAction();
 		}
+		
+		WCF::getDB()->commitTransaction();
 	}
 }
