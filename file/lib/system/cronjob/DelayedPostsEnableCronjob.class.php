@@ -11,8 +11,8 @@ use \wcf\system\WCF;
  * Enables delayed posts
  *
  * @author	Tim Düsterhus, Sascha Ehrler
- * @copyright	2013 Sascha Ehrler
- * @license	Creative Commons BY-NC-ND <http://creativecommons.org/licenses/by-nc-nd/3.0/de/>
+ * @copyright	2010-2014 Tim Düsterhus
+ * @license	Creative Commons BY-NC-SA <https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode>
  * @package	de.bisaboard.wbb.delayedPosts
  * @subpackage	system.cronjob
  */

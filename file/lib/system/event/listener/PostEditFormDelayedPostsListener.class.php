@@ -7,10 +7,10 @@ use \wcf\system\WCF;
 /**
  * Settings for delayed posts in PostEditForm
  *
- * @author	Sascha Ehrler
- * @copyright	2013 Sascha Ehrler
- * @license		Creative Commons BY-NC-ND <http://creativecommons.org/licenses/by-nc-nd/3.0/de/>
- * @package		de.bisaboard.wbb.delayedPosts
+ * @author	Tim Düsterhus, Sascha Ehrler
+ * @copyright	2010-2014 Tim Düsterhus
+ * @license	Creative Commons BY-NC-SA <https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode>
+ * @package	de.bisaboard.wbb.delayedPosts
  * @subpackage	system.event.listener
  */
 class PostEditFormDelayedPostsListener implements IEventListener {
