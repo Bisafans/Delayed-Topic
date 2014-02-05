@@ -75,6 +75,23 @@ class DelayedPostsEnableCronjob extends AbstractCronjob {
 			$action->executeAction();
 		}
 		
+		// remove enable time on every post
+		$sql = "SELECT	postID
+			FROM	wbb".WCF_N."_post
+			WHERE		isDisabled = ?
+				AND	enableTime <> ?
+			FOR UPDATE";
+		$statement = WCF::getDB()->prepareStatement($sql);
+		$statement->execute(array(0, 0));
+		
+		$postIDs = array();
+		while ($postID = $statement->fetchColumn()) $postIDs[] = $postID;
+		
+		$action = new PostAction($postIDs, 'update', array('data' => array(
+			'enableTime' => 0
+		)));
+		$action->executeAction();
+		
 		WCF::getDB()->commitTransaction();
 	}
 }
