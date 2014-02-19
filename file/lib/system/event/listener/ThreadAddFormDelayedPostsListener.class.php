@@ -43,7 +43,7 @@ class ThreadAddFormDelayedPostsListener implements IEventListener {
 			break;
 			
 			case 'readFormParameters':
-				if (isset($_POST['delayedTime'])) $this->timestamp = strtotime($_POST['delayedTime'].' GMT');
+				if (isset($_POST['delayedTime'])) $this->timestamp = strtotime($_POST['delayedTime'].' '.WCF::getUser()->getTimezone()->getName());
 				if (isset($_POST['delayedEnable'])) $this->delayedEnable = true;
 			break;
 			
