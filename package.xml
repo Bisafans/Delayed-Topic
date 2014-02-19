@@ -7,12 +7,12 @@
 		<packagedescription language="de"><![CDATA[Erlaubt Benutzern Themen zu erstellen, die zu einem gewählten Zeitpunkt aktiviert werden.]]></packagedescription>
 		<isapplication>0</isapplication>
 		<version>2.0.0 RC 1</version>
-		<date>2013-12-28</date>
+		<date>2014-02-19</date>
 		<license><![CDATA[Creative Commons BY-NC-SA <https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode>]]></license>
 	</packageinformation>
 
 	<authorinformation>
-		<author><![CDATA[Sascha Ehrler]]></author>
+		<author><![CDATA[Sascha Ehrler, Tim Düsterhus]]></author>
 		<authorurl><![CDATA[https://www.bisaboard.de]]></authorurl>
 	</authorinformation>
 
