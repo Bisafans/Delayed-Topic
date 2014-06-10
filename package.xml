@@ -6,8 +6,8 @@
 		<packagedescription><![CDATA[Allows users to create threads which will be activated at the chosen time.]]></packagedescription>
 		<packagedescription language="de"><![CDATA[Erlaubt Benutzern Themen zu erstellen, die zu einem gewählten Zeitpunkt aktiviert werden.]]></packagedescription>
 		<isapplication>0</isapplication>
-		<version>2.0.0 RC 1</version>
-		<date>2014-02-19</date>
+		<version>2.0.0 RC 2</version>
+		<date>2014-06-10</date>
 		<license><![CDATA[Creative Commons BY-NC-SA <https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode>]]></license>
 	</packageinformation>
 
@@ -35,7 +35,6 @@
 		<instruction type="language">language/*.xml</instruction>
 		<instruction type="file" application="wbb">file.tar</instruction>
 		<instruction type="template" application="wbb">template.tar</instruction>
-		<instruction type="cronjob">cronjob.xml</instruction>
 		<instruction type="eventListener">eventListener.xml</instruction>
 		<instruction type="templateListener">templateListener.xml</instruction>
 	</instructions>
