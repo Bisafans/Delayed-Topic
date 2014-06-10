@@ -24,74 +24,84 @@ class DelayedPostsEnableCronjob extends AbstractCronjob {
 		parent::execute($cronjob);
 		
 		WCF::getDB()->beginTransaction();
-		
-		$threadIDs = array();
-		$sql = "SELECT		t.threadID
-			FROM		wbb".WCF_N."_thread t
-			INNER JOIN	wbb".WCF_N."_post p
-			ON		t.firstPostID = p.postID
-			WHERE		p.isDisabled = ?
-				AND	p.enableTime < ?
-				AND	p.enableTime <> ?
-			FOR UPDATE";
-		$statement = WCF::getDB()->prepareStatement($sql);
-		$statement->execute(array(1, TIME_NOW, 0));
-		while ($threadID = $statement->fetchColumn()) $threadIDs[] = $threadID;
-		
-		$action = new ThreadAction($threadIDs, 'update', array('data' => array(
-			'time' => TIME_NOW
-		)));
-		$action->executeAction();
-		
-		// select all posts which have to be enabled, will also enable threads
-		$sql = "SELECT	postID
-			FROM	wbb".WCF_N."_post
-			WHERE		isDisabled = ?
-				AND	enableTime < ?
-				AND	enableTime <> ?";
-		$statement = WCF::getDB()->prepareStatement($sql);
-		$statement->execute(array(1, TIME_NOW, 0));
-		
-		$postIDs = array();
-		while ($postID = $statement->fetchColumn()) $postIDs[] = $postID;
-		
-		if (!empty($postIDs)) {
-			// change date
-			$action = new PostAction($postIDs, 'update', array('data' => array(
-				'time' => TIME_NOW
-			)));
-			$action->executeAction();
+		try {
+			$threadIDs = array();
+			$sql = "SELECT		t.threadID
+				FROM		wbb".WCF_N."_thread t
+				INNER JOIN	wbb".WCF_N."_post p
+				ON		t.firstPostID = p.postID
+				WHERE		p.isDisabled = ?
+					AND	p.enableTime < ?
+					AND	p.enableTime <> ?
+				FOR UPDATE";
+			$statement = WCF::getDB()->prepareStatement($sql);
+			$statement->execute(array(1, TIME_NOW, 0));
+			while ($threadID = $statement->fetchColumn()) $threadIDs[] = $threadID;
 			
-			$action = new PostAction($postIDs, 'enable');
-			try {
-				$action->validateAction();
-			}
-			catch (\wcf\system\exception\PermissionDeniedException $e) {
-				// validateAction may throw an undesired PermissionDeniedException
-				// as the user executing the cronjob does not neccesarily have the
-				// permission to enable posts
+			if (!empty($threadIDs)) {
+				$action = new ThreadAction($threadIDs, 'update', array('data' => array(
+					'time' => TIME_NOW
+				)));
+				$action->executeAction();
 			}
 			
-			$action->executeAction();
+			// select all posts which have to be enabled, will also enable threads
+			$sql = "SELECT	postID
+				FROM	wbb".WCF_N."_post
+				WHERE		isDisabled = ?
+					AND	enableTime < ?
+					AND	enableTime <> ?";
+			$statement = WCF::getDB()->prepareStatement($sql);
+			$statement->execute(array(1, TIME_NOW, 0));
+			
+			$postIDs = array();
+			while ($postID = $statement->fetchColumn()) $postIDs[] = $postID;
+			
+			if (!empty($postIDs)) {
+				// change date
+				$action = new PostAction($postIDs, 'update', array('data' => array(
+					'time' => TIME_NOW
+				)));
+				$action->executeAction();
+				
+				$action = new PostAction($postIDs, 'enable');
+				try {
+					$action->validateAction();
+				}
+				catch (\wcf\system\exception\PermissionDeniedException $e) {
+					// validateAction may throw an undesired PermissionDeniedException
+					// as the user executing the cronjob does not neccesarily have the
+					// permission to enable posts
+				}
+				
+				$action->executeAction();
+			}
+			
+			// remove enable time on every post
+			$sql = "SELECT	postID
+				FROM	wbb".WCF_N."_post
+				WHERE		isDisabled = ?
+					AND	enableTime <> ?
+				FOR UPDATE";
+			$statement = WCF::getDB()->prepareStatement($sql);
+			$statement->execute(array(0, 0));
+			
+			$postIDs = array();
+			while ($postID = $statement->fetchColumn()) $postIDs[] = $postID;
+			
+			if (!empty($postIDs)) {
+				$action = new PostAction($postIDs, 'update', array('data' => array(
+					'enableTime' => 0
+				)));
+				$action->executeAction();
+			}
+			
+			WCF::getDB()->commitTransaction();
 		}
-		
-		// remove enable time on every post
-		$sql = "SELECT	postID
-			FROM	wbb".WCF_N."_post
-			WHERE		isDisabled = ?
-				AND	enableTime <> ?
-			FOR UPDATE";
-		$statement = WCF::getDB()->prepareStatement($sql);
-		$statement->execute(array(0, 0));
-		
-		$postIDs = array();
-		while ($postID = $statement->fetchColumn()) $postIDs[] = $postID;
-		
-		$action = new PostAction($postIDs, 'update', array('data' => array(
-			'enableTime' => 0
-		)));
-		$action->executeAction();
-		
-		WCF::getDB()->commitTransaction();
+		catch (\Exception $e) {
+			WCF::getDB()->rollbackTransaction();
+			
+			throw $e;
+		}
 	}
 }
